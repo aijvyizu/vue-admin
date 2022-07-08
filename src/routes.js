@@ -9,6 +9,12 @@ import Page4 from './views/nav2/Page4.vue'
 import Page5 from './views/nav2/Page5.vue'
 import Page6 from './views/nav3/Page6.vue'
 import echarts from './views/charts/echarts.vue'
+import welcome from './components/Welcome.vue'
+import showData from './components/ShowData.vue'
+import userManage from './components/UserManage.vue'
+import guanggao from './components/guanggao/GuangGao.vue'
+import guanggaotest from './components/guanggao/GuangFGao2.vue'
+import fileupdown from './components/dialog/FileUploadDownload.vue'
 
 let routes = [
     {
@@ -23,6 +29,14 @@ let routes = [
         name: '',
         hidden: true
     },
+    {
+        path: '/guanggao',
+        component: guanggao
+    },
+    {
+        path: '/guanggao2',
+        component: guanggaotest
+    },
     //{ path: '/main', component: Main },
     {
         path: '/',
@@ -30,6 +44,26 @@ let routes = [
         name: '导航一',
         iconCls: 'el-icon-message',//图标样式class
         children: [
+            {
+                path: '/fileupdown',
+                component: fileupdown,
+                name: '文件上传'
+            },
+            {
+                path: '/welcome',
+                component: welcome,
+                name: '欢迎'
+            },
+            {
+                path: '/showData',
+                component: showData,
+                name: '数据展示'
+            },
+            {
+                path: '/userManage',
+                component: userManage,
+                name: '用户管理'
+            },
             { path: '/main', component: Main, name: '主页', hidden: true },
             { path: '/table', component: Table, name: 'Table' },
             { path: '/form', component: Form, name: 'Form' },
