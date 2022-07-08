@@ -9,7 +9,7 @@
     </el-form-item>
     <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
     <el-form-item style="width:100%;">
-      <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
+      <el-button type="primary" style="width:100%;" @keyup.enter="keyDown" @click.native.prevent="login" :loading="logining">登录</el-button>
       <el-button @click.native.prevent="handleReset2">重置</el-button>
     </el-form-item>
   </el-form>
@@ -17,14 +17,15 @@
 
 <script>
   import { requestLogin } from '../api/api';
+  import axios from "axios";
   //import NProgress from 'nprogress'
   export default {
     data() {
       return {
         logining: false,
         ruleForm2: {
-          account: 'admin',
-          checkPass: '123456'
+          account: '',
+          checkPass: ''
         },
         rules2: {
           account: [
@@ -43,36 +44,51 @@
       handleReset2() {
         this.$refs.ruleForm2.resetFields();
       },
+      keyDown (e) {
+        // 如果是回车则执行登录方法
+        this.$message.warning(1111111)
+        if (e.keyCode == 13) {
+          // 需要执行的登录方法
+          this.login()
+        }
+      },
       login () {
-        this.$refs.loginFromRef.validate(async (valid) => {
+        this.$refs.ruleForm2.validate(async (valid) => {
           if (!valid) {
             this.$message.error('登录失败')
             return
           }
-          const { data: result } = await this.$http.post('user/login', this.loginfrom)
-          if (result.status === 200) {
-            await this.$router.push('/home')
-            this.$message.success(result.message)
-          } else if (result.status === 250) {
-            this.$message.error(result.message)
-          } else {
-            this.$message.error('网络异常')
-          }
+          let loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
+          await this.$http.post('user/login', loginParams).then(
+              (result) => {
+                if (result.status === 200) {
+                  let user = loginParams.username
+                  sessionStorage.setItem('user', JSON.stringify(user));
+                  this.$router.push({ path: '/welcome' });
+                  this.$message.success(result.message)
+                } else if (result.status === 250) {
+                  this.$message.error(result.message)
+                } else {
+                  this.$message.error('网络异常')
+                }
+              }
+          )
+          // const { data: result } = await axios.post(this.baseURL + 'user/login', loginParams)
         })
       },
       handleSubmit2(ev) {
-        var _this = this;
         this.$refs.ruleForm2.validate((valid) => {
           if (valid) {
             //_this.$router.replace('/table');
             this.logining = true;
             //NProgress.start();
             let loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-            requestLogin(loginParams).then(data => {
+            this.$http.post('user/login', loginParams).then(data => {
+            // requestLogin(loginParams).then(data => {
               this.logining = false;
               //NProgress.done();
-              let { msg, code, user } = data;
-              if (code !== 200) {
+              let { message, status, user } = data;
+              if (status !== 200) {
                 this.$message({
                   message: msg,
                   type: 'error'

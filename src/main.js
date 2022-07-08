@@ -13,6 +13,9 @@ import routes from './routes'
 import Mock from './mock'
 Mock.bootstrap();
 import 'font-awesome/css/font-awesome.min.css'
+import request from "./api/request";
+
+Vue.prototype.$http = request
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)

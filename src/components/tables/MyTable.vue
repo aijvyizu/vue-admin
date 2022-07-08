@@ -179,7 +179,7 @@ export default {
     },
     userDelete (row) {
       console.log(row.id, 'id')
-      this.axions.delete('/user/delete/' + row.id)
+      this.$http.delete('user/delete/' + row.id)
         .then(({ data }) => {
           if (data.status === 200) {
             this.$message.success('删除成功')
@@ -196,16 +196,16 @@ export default {
         })
     },
     async getUser () {
-      this.axions.get(this.base+'/user/getList')
-        .then(({ data }) => {
+      this.$http.get('user/getList')
+        .then(( data ) => {
           this.tableLoading = true
           if (data.status === 200) {
             this.carList = data.obj1
+            console.log(this.carList)
             this.tableEmpty = false
-            // this.tableLoading = this.listLoading
+            this.tableLoading = false
             setTimeout(() => {
             }, 2000)
-            this.tableLoading = false
           } else {
             this.tableLoading = false
             this.tableEmpty = true

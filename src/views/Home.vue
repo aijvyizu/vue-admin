@@ -73,7 +73,7 @@
 	export default {
 		data() {
 			return {
-				sysName:'VUEADMIN',
+				sysName:'GUANLIXITONG',
 				collapsed:false,
 				sysUserName: '',
 				sysUserAvatar: '',
