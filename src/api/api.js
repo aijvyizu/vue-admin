@@ -1,12 +1,10 @@
 import axios from 'axios';
 
-// let base = 'http://192.168.0.128:8090';
-// let base = 'api';
-let base = '';
+let base = 'http://192.168.0.128:8090';
 
 export const requestLogin = params => { return axios.post(`${base}/login`, params).then(res => res.data); };
 
-export const getUserList = params => { return axios.get(`${base}/user/list`, { params: params }); };
+export const getUserList = params => { return axios.get(`${base}/user/getList`, { params: params }); };
 
 export const getUserListPage = params => { return axios.get(`${base}/user/listpage`, { params: params }); };
 

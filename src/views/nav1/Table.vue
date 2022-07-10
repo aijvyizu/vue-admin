@@ -173,7 +173,9 @@
 				};
 				this.listLoading = true;
 				//NProgress.start();
-				getUserListPage(para).then((res) => {
+				getUserListPage(para)
+        // this.$http.get('user/getList')
+            .then((res) => {
 					this.total = res.data.total;
 					this.users = res.data.users;
 					this.listLoading = false;
